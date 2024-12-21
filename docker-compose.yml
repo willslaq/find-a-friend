@@ -1,0 +1,14 @@
+services:
+  findafriend-pg:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USERNAME: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DATABASE: "findafriend"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -h findafriend-pg"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

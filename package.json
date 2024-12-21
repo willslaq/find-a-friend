@@ -1,6 +1,6 @@
 {
   "name": "findafriend-api",
-  "version": "0.1.14",
+  "version": "0.1.1",
   "description": "API for the application Find a Friend that connects people with pets",
   "main": "index.js",
   "scripts": {
