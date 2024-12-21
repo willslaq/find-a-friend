@@ -1,0 +1,60 @@
+{
+  "name": "findafriend-api",
+  "version": "0.1.14",
+  "description": "API for the application Find a Friend that connects people with pets",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky init",
+    "release": "standard-version",
+    "start": "tsx watch build/server.js",
+    "start:dev": "tsx watch src/server.ts",
+    "build": "tsup",
+    "lint": "eslint src --config eslint.config.mjs",
+    "lint:fix": "eslint src --config eslint.config.mjs --fix",
+    "update-swagger-version": "node updateSwaggerVersion.js"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --config eslint.config.mjs --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cookie": "11.0.1",
+    "@fastify/jwt": "9.0.2",
+    "@fastify/swagger": "9.4.0",
+    "@fastify/swagger-ui": "5.2.0",
+    "bcryptjs": "2.4.3",
+    "dotenv": "16.4.7",
+    "fastify": "5.2.0",
+    "winston": "3.17.0",
+    "zod": "3.24.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.17.0",
+    "@types/bcryptjs": "2.4.6",
+    "@types/node": "22.10.2",
+    "eslint": "9.17.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-prettier": "5.2.1",
+    "globals": "15.14.0",
+    "husky": "9.1.7",
+    "lint-staged": "15.2.11",
+    "prettier": "3.4.2",
+    "prisma": "6.1.0",
+    "standard-version": "9.5.0",
+    "tsup": "8.3.5",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2",
+    "typescript-eslint": "8.18.1",
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "2.1.8"
+  }
+}
