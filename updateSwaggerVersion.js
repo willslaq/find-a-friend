@@ -1,27 +1,29 @@
-import fs from 'fs'
-const pkg = await import('./package.json', { assert: { type: 'json' } });
+import fs from 'fs';
 
-const appFile = './src/app.ts'
-const appFileContent = fs.readFileSync(appFile, 'utf-8')
+const pkg = await import('./package.json', {
+  assert: { type: 'json' }
+});
 
-const versionRegex = /version: "([\d]+\.[\d]+\.[\d]+)"/
-const currentVersionMatch = appFileContent.match(versionRegex)
+const appFilePath = './src/app.ts';
+const appFileContent = fs.readFileSync(appFilePath, 'utf8');
+
+const versionRegex = /version: "([\d]+\.[\d]+\.[\d]+)"/;
+const currentVersionMatch = appFileContent.match(versionRegex);
 
 if (currentVersionMatch) {
-    const currentVersion = currentVersionMatch[1]
+  const currentVersion = currentVersionMatch[1];
 
-    if(currentVersion !== pkg.version) {
-        const updatedAppFileContent = appFileContent.replace(
-            versionRegex,
-            `version: "${pkg.version}"`
-        )
-    
-        fs.writeFileSync(appFile, updatedAppFileContent, 'utf-8')
-        console.log(`Updated ${appFile} with version ${pkg.version}`)
-    } else {
-        console.log(`${appFile} is already up to date with version ${pkg.version}`)
-    }
+  if (currentVersion !== pkg.version) {
+    const updatedAppFileContent = appFileContent.replace(
+      versionRegex,
+      `version: "${pkg.version}"`
+    );
+
+    fs.writeFileSync(appFilePath, updatedAppFileContent, 'utf8');
+    console.log(`Swagger version updated to ${pkg.version}`);
+  } else {
+    console.log(`Swagger version is already up to date: ${pkg.version}`);
+  }
 } else {
-    console.error(`Could not find version in ${appFile}`)
+  console.error('Version string not found in app.ts');
 }
-
