@@ -1,4 +1,1 @@
 echo "Commit message linting"
-
-npm run release
-# npm run update-swagger-version
