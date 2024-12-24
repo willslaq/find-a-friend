@@ -1,5 +1,5 @@
 import fs from 'fs'
-import pkg from './package.json'
+const pkg = await import('./package.json', { assert: { type: 'json' } });
 
 const appFile = './src/app.ts'
 const appFileContent = fs.readFileSync(appFile, 'utf-8')
