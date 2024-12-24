@@ -4,7 +4,7 @@
   "description": "API for the application Find a Friend that connects people with pets",
   "main": "index.js",
   "scripts": {
-    "prepare": "husky init",
+    "prepare": "husky install",
     "release": "standard-version",
     "start": "tsx watch build/server.js",
     "start:dev": "tsx watch src/server.ts",
@@ -20,7 +20,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npx lint-staged"
     }
   },
   "keywords": [],
