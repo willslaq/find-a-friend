@@ -1,0 +1,112 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ROLE {
+  ADMIN
+  ORG
+  USER
+}
+
+enum ADOPTION_STATUS {
+  AVAILABLE
+  PENDING
+  ADOPTED
+}
+
+model User {
+  id               String     @id @default(uuid())
+  name             String
+  email            String     @unique
+  password_hash    String
+  phone            String     @unique
+  role             ROLE       @default(USER)
+  address          String
+  last_login       DateTime?
+  updated_at       DateTime   @updatedAt
+  created_at       DateTime   @default(now())
+  deleted_at       DateTime?
+  Pet              Pet[]
+  Adoption         Adoption[]
+  sentMessages     Message[]  @relation(name: "SentMessages")
+  receivedMessages Message[]  @relation(name: "ReceivedMessages")
+
+  @@index([email])
+  @@map("users")
+}
+
+model Pet {
+  id           String     @id @default(uuid())
+  name         String
+  species      String
+  breed        String
+  age_in_month Int
+  weight       Float
+  description  String
+  is_available Boolean    @default(true)
+  rescued_at   DateTime?
+  created_at   DateTime   @default(now())
+  updated_at   DateTime   @updatedAt
+  deleted_at   DateTime?
+  Adoption     Adoption[]
+
+  User    User?   @relation(fields: [user_id], references: [id])
+  user_id String?
+
+  @@index([is_available])
+  @@map("pets")
+}
+
+model Adoption {
+  id         String          @id @default(uuid())
+  adopted_at DateTime?
+  status     ADOPTION_STATUS @default(AVAILABLE)
+  created_at DateTime        @default(now())
+  updated_at DateTime        @updatedAt
+  deleted_at DateTime?
+
+  Pet     Pet?    @relation(fields: [pet_id], references: [id])
+  pet_id  String?
+  User    User?   @relation(fields: [user_id], references: [id])
+  user_id String?
+
+  @@map("adoptions")
+}
+
+model Message {
+  id         String    @id @default(uuid())
+  content    String
+  sent_at    DateTime  @default(now())
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  sender      User?   @relation(name: "SentMessages", fields: [sender_id], references: [id])
+  sender_id   String?
+  receiver    User?   @relation(name: "ReceivedMessages", fields: [receiver_id], references: [id])
+  receiver_id String?
+
+  @@map("messages")
+}
+
+model Review {
+  id         String    @id @default(uuid())
+  rating     Int
+  note       String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  @@map("reviews")
+}
