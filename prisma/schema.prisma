@@ -57,7 +57,7 @@ model Pet {
   is_available Boolean    @default(true)
   rescued_at   DateTime?
   created_at   DateTime   @default(now())
-  updated_at   DateTime   @updatedAt
+  updated_at   DateTime?  @updatedAt
   deleted_at   DateTime?
   Adoption     Adoption[]
 
